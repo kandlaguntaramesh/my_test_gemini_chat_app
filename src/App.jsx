@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { useState, useEffect } from 'react'
 import ChatInterface from './components/ChatInterface'
 import ApiKeyInput from './components/ApiKeyInput'
 import './App.css'
@@ -11,40 +10,45 @@ export default function App() {
   const initialApiKey = envApiKey || storedApiKey || ''
   const isInitiallyConfigured = !!initialApiKey
 
-  const [apiKey, setApiKey] = useState(initialApiKey)
   const [isConfigured, setIsConfigured] = useState(isInitiallyConfigured)
-  const [client, setClient] = useState(
-    isInitiallyConfigured
-      ? new GoogleGenerativeAI(initialApiKey)
-      : null
-  )
+  const [theme, setTheme] = useState(() => localStorage.getItem('gemini-theme') || 'dark')
+
+  useEffect(() => {
+    // The rest of the app reads the key from localStorage, so an
+    // env-provided key must be mirrored there or every send fails.
+    if (envApiKey && !storedApiKey) {
+      localStorage.setItem('gemini-api-key', envApiKey)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('gemini-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  }
 
   const handleSetApiKey = (key) => {
     localStorage.setItem('gemini-api-key', key)
-    setApiKey(key)
     setIsConfigured(true)
-    try {
-      const genAI = new GoogleGenerativeAI(key)
-      setClient(genAI)
-      console.log('✅ API key configured successfully')
-    } catch (err) {
-      console.error('❌ Failed to initialize API:', err)
-    }
   }
 
   const handleLogout = () => {
     localStorage.removeItem('gemini-api-key')
-    setApiKey('')
     setIsConfigured(false)
-    setClient(null)
   }
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${!isConfigured ? 'centered' : ''}`}>
+      <div className="bg-orb blue" />
+      <div className="bg-orb purple" />
+
       {!isConfigured ? (
         <ApiKeyInput onSetApiKey={handleSetApiKey} />
       ) : (
-        <ChatInterface client={client} onLogout={handleLogout} />
+        <ChatInterface onLogout={handleLogout} theme={theme} onToggleTheme={toggleTheme} />
       )}
     </div>
   )

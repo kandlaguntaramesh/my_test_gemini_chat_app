@@ -1,0 +1,225 @@
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 4, 8, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.settings-panel {
+  width: 100%;
+  max-width: 720px;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass-lg);
+}
+
+.settings-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.settings-panel-header h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.settings-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.settings-body {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+@media (min-width: 640px) {
+  .settings-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+  }
+
+  .setting-group.full-width {
+    grid-column: 1 / -1;
+  }
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.setting-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.setting-value {
+  color: var(--accent-blue);
+  font-weight: 700;
+}
+
+.label-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.info-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  outline: none;
+}
+
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: white;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  cursor: help;
+  box-shadow: 0 0 6px rgba(79, 141, 253, 0.8), 0 0 14px rgba(164, 99, 242, 0.5);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.info-tooltip:hover .info-icon,
+.info-tooltip:focus .info-icon {
+  box-shadow: 0 0 10px rgba(79, 141, 253, 1), 0 0 22px rgba(164, 99, 242, 0.85);
+  transform: scale(1.12);
+}
+
+.info-tooltip .tooltip-text {
+  position: absolute;
+  bottom: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 230px;
+  background: #16161f;
+  color: #f4f4f6;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 1px solid var(--glass-border-strong);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.info-tooltip .tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #16161f;
+}
+
+.info-tooltip:hover .tooltip-text,
+.info-tooltip:focus .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.setting-group select,
+.setting-group input[type="number"],
+.setting-group input[type="text"],
+.setting-group textarea {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.03);
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+:root[data-theme="light"] .setting-group select,
+:root[data-theme="light"] .setting-group input[type="number"],
+:root[data-theme="light"] .setting-group input[type="text"],
+:root[data-theme="light"] .setting-group textarea {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.setting-group select:focus,
+.setting-group input:focus,
+.setting-group textarea:focus {
+  border-color: var(--accent-blue);
+  background: rgba(79, 141, 253, 0.06);
+}
+
+.setting-group select option {
+  background: #16161f;
+  color: #f4f4f6;
+}
+
+.setting-group textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.setting-group input[type="range"] {
+  accent-color: var(--accent-blue);
+}
+
+.settings-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px 24px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.reset-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 4px;
+}
+
+.reset-btn:hover {
+  color: var(--danger);
+  text-decoration: underline;
+}

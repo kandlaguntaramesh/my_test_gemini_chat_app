@@ -17,10 +17,11 @@ export default function ApiKeyInput({ onSetApiKey }) {
 
   return (
     <div className="api-key-container">
-      <div className="card">
+      <div className="card glass">
         <div className="card-header">
-          <h1>🤖 Gemini Chat</h1>
-          <p>Google Generative AI Chat App</p>
+          <div className="card-logo">✨</div>
+          <h1>Gemini Chat</h1>
+          <p>Your premium AI assistant, powered by Google Gemini</p>
         </div>
 
         <form onSubmit={handleSubmit} className="form">
@@ -44,18 +45,18 @@ export default function ApiKeyInput({ onSetApiKey }) {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="button button-primary">
+          <button type="submit" className="button button-primary gradient-btn">
             Start Chatting
           </button>
         </form>
 
-        <div className="info-section">
+        <div className="info-section glass">
           <h3>About</h3>
-          <p>This app uses Google's Gemini Flash 3.5 model for fast and intelligent conversations.</p>
+          <p>A premium chat interface for Google's Gemini models.</p>
           <ul>
-            <li>💬 Real-time chat with Gemini</li>
+            <li>💬 Real-time streaming responses</li>
             <li>🔒 Your API key is stored locally only</li>
-            <li>⚡ Powered by Gemini Flash 3.5</li>
+            <li>⚙️ Fully customizable model settings</li>
           </ul>
         </div>
       </div>
